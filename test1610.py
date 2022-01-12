@@ -1,40 +1,33 @@
 # 可见点的最大数目：https://leetcode-cn.com/problems/maximum-number-of-visible-points/
 import math
+from bisect import bisect_right
 
 
 class Solution:
     def visiblePoints(self, points: list, angle: int, location: list) -> int:
         angle_list = []
+        same_num = 0
         for p in points:
             if p[0] == location[0] and p[1] == location[1]:
-                continue
-            elif p[0] == location[0]:
-                angle_list.append(0)
-            elif p[1] == location[1]:
-                angle_list.append(math.pi / 2)
+                same_num += 1
             else:
-                angle_list.append(math.atan2((p[1]-location[1])/(p[0]-location[0])))
+                angle_list.append(math.atan2((p[1]-location[1]), (p[0]-location[0])))
         angle_list.sort()
-        angle = math.atan2(angle)
-        big_other = 0
-        small_other = 0
-        print(angle_list[1] - angle_list[2])
-        for i in angle_list[::-1]:
-            if i > angle_list[0] + angle:
-                big_other += 1
-            else:
-                break
-        for i in angle_list:
-            if i < angle_list[-1] - angle:
-                small_other += 1
-            else:
-                break
-        return len(points) - big_other if big_other < small_other else len(points) - small_other
+        n = len(angle_list)
+        angle_list += [angle + 2 * math.pi for angle in angle_list]
+        angle = math.pi * angle/180
+        max_num = max((bisect_right(angle_list, angle_list[i] + angle) - i for i in range(n)), default=0)
+        return max_num + same_num
 
 
 if __name__ == '__main__':
-    points = [[1, 1], [2, 2], [3, 3], [4, 4], [1, 2], [2, 1]]
-    angle = 0
+    points = [[0, 0], [0, 2]]
+    angle = 90
     location = [1, 1]
     s = Solution()
-    s.visiblePoints(points, angle, location)
+    print(s.visiblePoints(points, angle, location))
+
+
+# 总结点：
+# 官方两种解法：二分查找，滑动窗口
+# 数据结构：二分查找
