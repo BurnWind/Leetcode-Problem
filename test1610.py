@@ -1,7 +1,7 @@
 # 可见点的最大数目：https://leetcode-cn.com/problems/maximum-number-of-visible-points/
 import math
 from bisect import bisect_right
-
+# ***
 
 class Solution:
     def visiblePoints(self, points: list, angle: int, location: list) -> int:

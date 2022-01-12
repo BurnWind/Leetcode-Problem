@@ -1,5 +1,5 @@
 # 喧闹和富有:https://leetcode-cn.com/problems/loud-and-rich/
-
+# ****
 
 class Solution:
     def loudAndRich(self, richer: list, quiet: list) -> list:
